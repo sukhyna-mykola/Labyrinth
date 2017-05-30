@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="devchallenge.labyrinth.dialogs.PauseFragment">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:columnCount="1">
+
+        <Button
+            android:id="@+id/resume_game"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/resume" />
+
+        <Button
+            android:id="@+id/new_game"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/new_game" />
+
+        <Button
+            android:id="@+id/load_game"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/load_game" />
+
+        <Button
+            android:id="@+id/save_game"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/new_game" />
+
+        <Button
+            android:id="@+id/menu"
+            android:layout_gravity="fill_horizontal"
+            android:text="@string/menu" />
+
+    </GridLayout>
+
+
+</RelativeLayout>

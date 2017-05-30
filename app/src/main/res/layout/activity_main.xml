@@ -64,4 +64,12 @@
             android:src="@drawable/ic_arrow_upward_black_24dp" />
     </GridLayout>
 
+    <ImageButton
+        android:id="@+id/pause_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:onClick="onClick"
+        android:src="@drawable/ic_pause_black_24dp" />
+
 </RelativeLayout>

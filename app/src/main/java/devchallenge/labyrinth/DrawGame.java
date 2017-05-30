@@ -13,7 +13,7 @@ public class DrawGame extends Thread {
 
     public final String TAG = getClass().getSimpleName();
 
-    private UpdateCallback updator;
+    private GameCallbacks callbacks;
 
 
     @Override
@@ -33,7 +33,7 @@ public class DrawGame extends Thread {
 
             startTime = System.currentTimeMillis();
 
-            updator.update();
+            callbacks.update();
 
             sleepTime = ticksPS - (System.currentTimeMillis() - startTime);
             Log.d(TAG, "sleep time = " + sleepTime);
@@ -46,8 +46,8 @@ public class DrawGame extends Thread {
         }
     }
 
-    public DrawGame(UpdateCallback updator) {
-        this.updator = updator;
+    public DrawGame(GameCallbacks callbacks) {
+        this.callbacks = callbacks;
         //  pause = true;
         running = true;
         start();
