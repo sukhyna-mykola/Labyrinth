@@ -1,10 +1,32 @@
 <resources>
     <string name="app_name">Labyrinth</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="resume">RESUME</string>
     <string name="new_game">NEW GAME</string>
     <string name="load_game">LOAD GAME</string>
     <string name="menu">MENU</string>
+    <string name="save_game">SAVE_GAME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="exit">EXIT</string>
+    <string name="ok">OK</string>
+
+    <string-array name="sizes">
+        <item>21x21</item>
+        <item>11x11</item>
+        <item>31x31</item>
+        <item>41x41</item>
+    </string-array>
+
+    <string-array name="modes">
+        <item>STANGART</item>
+        <item>RANDOM</item>
+    </string-array>
+
+    <string-array name="controllers">
+        <item>KEYS</item>
+        <item>ACCELEROMETER</item>
+
+    </string-array>
+
+
 </resources>

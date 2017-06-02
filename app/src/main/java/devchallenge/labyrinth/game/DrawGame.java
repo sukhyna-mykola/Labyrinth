@@ -1,7 +1,9 @@
-package devchallenge.labyrinth;
+package devchallenge.labyrinth.game;
 
 
 import android.util.Log;
+
+import devchallenge.labyrinth.game.GameCallbacks;
 
 
 public class DrawGame extends Thread {
@@ -9,7 +11,7 @@ public class DrawGame extends Thread {
 
     private boolean pause;
 
-    public static int FPS = 200;
+    public static int FPS = 60;
 
     public final String TAG = getClass().getSimpleName();
 
@@ -19,13 +21,13 @@ public class DrawGame extends Thread {
     @Override
     public void run() {
         long ticksPS = 1000 / FPS;
-        long startTime;
-        long sleepTime = 10;
+        long startTime,sleepTime;
+
         while (running) {
 
             while (pause) {
                 try {
-                    Thread.sleep(sleepTime);
+                    sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -50,7 +52,6 @@ public class DrawGame extends Thread {
         this.callbacks = callbacks;
         //  pause = true;
         running = true;
-        start();
 
     }
 

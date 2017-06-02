@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="devchallenge.labyrinth.dialogs.PauseFragment">
+
+    <RelativeLayout
+        android:id="@+id/labyrinth_size"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/m_dimen" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/labyrinth_mode"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/m_dimen" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/labyrinth_controller"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_controller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/m_dimen" />
+    </RelativeLayout>
+
+</LinearLayout>

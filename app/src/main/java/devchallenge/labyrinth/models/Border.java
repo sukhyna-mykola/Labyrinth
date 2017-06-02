@@ -4,15 +4,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-/**
- * Created by mykola on 28.05.17.
- */
 
 public class Border extends Cell {
+    public static final String BORDER_CELL = "BORDER_CELL";
+
     public Border(int row, int column, int width, int height) {
         super(row, column, width, height);
         this.color  = Color.BLUE;
+        this.type = BORDER_CELL;
     }
+
+
 
     @Override
     public void draw(Canvas canvas, Paint p) {

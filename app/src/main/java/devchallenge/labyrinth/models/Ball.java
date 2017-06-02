@@ -7,10 +7,11 @@ import android.graphics.Paint;
 
 public class Ball extends Cell {
 
+    public static final String BALL_CELL = "BALL_SELL";
     public float x, y;
 
-    public float vx, vy, a = 0.015f;
-    public static final float MAX_V = 1.5f;
+    public float vx, vy, a = 0.04f;
+    public static final float MAX_V = 3f;
 
 
     public Ball(int row, int column, int width, int height) {
@@ -19,6 +20,7 @@ public class Ball extends Cell {
         this.x = column * this.width;
         this.y = row * this.height;
 
+        this.type = BALL_CELL;
 
         this.color = Color.RED;
     }

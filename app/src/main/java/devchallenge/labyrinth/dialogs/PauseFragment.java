@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import devchallenge.labyrinth.GameCallbacks;
 import devchallenge.labyrinth.R;
+import devchallenge.labyrinth.game.GameCallbacks;
+
+import static devchallenge.labyrinth.dialogs.SaveDialog.SAVE_DIALOG;
+import static devchallenge.labyrinth.dialogs.SavedGamesFragment.SAVED_GAMES_DIALOG;
 
 
 public class PauseFragment extends DialogFragment {
@@ -47,15 +51,14 @@ public class PauseFragment extends DialogFragment {
         v.findViewById(R.id.load_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callbacks.loadGame();
+                SavedGamesFragment.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SAVED_GAMES_DIALOG);
                 dismiss();
             }
         });
         v.findViewById(R.id.save_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callbacks.saveGame();
-                dismiss();
+                SaveDialog.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SAVE_DIALOG);
             }
         });
 
@@ -87,5 +90,6 @@ public class PauseFragment extends DialogFragment {
         super.onDetach();
         callbacks = null;
     }
+
 
 }

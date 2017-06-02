@@ -1,13 +1,11 @@
 package devchallenge.labyrinth;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,22 +13,20 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import devchallenge.labyrinth.dialogs.EndGameFragment;
 import devchallenge.labyrinth.dialogs.PauseFragment;
+import devchallenge.labyrinth.game.DrawGame;
+import devchallenge.labyrinth.game.Game;
+import devchallenge.labyrinth.game.GameCallbacks;
+import devchallenge.labyrinth.helpers.GameSettings;
 import devchallenge.labyrinth.models.direction.DirectionsEnum;
-import devchallenge.labyrinth.models.direction.DownDirection;
-import devchallenge.labyrinth.models.direction.LeftDirection;
-import devchallenge.labyrinth.models.direction.NoneDirection;
-import devchallenge.labyrinth.models.direction.RightDirection;
-import devchallenge.labyrinth.models.direction.UpDirection;
+import devchallenge.labyrinth.views.LabyrinthView;
 
-public class MainActivity extends AppCompatActivity implements
-        View.OnClickListener,
+public class GameActivity extends AppCompatActivity implements
+        View.OnClickListener, SensorCallbacks,
         View.OnTouchListener, GameCallbacks {
-    private static final String TAG = "MAIN";
-    private static final String PAUSE_DIALOG = "PAUSE_DIALOG";
+
     private LabyrinthView v;
     private Game game;
     private ImageButton down, up, right, left;
@@ -39,24 +35,35 @@ public class MainActivity extends AppCompatActivity implements
     private RelativeLayout parent;
     private FrameLayout labyrinthContainer;
 
-    private Context context;
+    public static int WIDTH, HEIGHT;
 
-    SensorManager sensorManager;
-    Sensor sensorAccel;
-    Sensor sensorMagnet;
+    public static final String LOAD_GAME = "LOAD_GAME";
+
+    private SensorManager sensorManager;
+    private Sensor sensorAccel;
+    private Sensor sensorMagnet;
+
+    private GameSettings settings;
 
     private ViewTreeObserver.OnGlobalLayoutListener globalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onGlobalLayout() {
-            int height = parent.getHeight();
-            int width = parent.getWidth();
+
+            HEIGHT = parent.getHeight();
+            WIDTH = parent.getWidth();
+
+            newGame();
+
+            String filename = getIntent().getStringExtra(LOAD_GAME);
+
+            if (filename != null)
+                loadGame(filename);
 
 
-            int min = Math.min(width / game.getColumnCount(), height / game.getRowCount());
-            game.init(min);
-            v.setLayoutParams(new FrameLayout.LayoutParams(min * game.getColumnCount(), min * game.getRowCount()));
-            drawGame = new DrawGame((GameCallbacks) context);
+            setLabirynthViewSize();
+
+            drawGame.start();
 
             parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
@@ -81,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements
         up.setOnTouchListener(this);
         left.setOnTouchListener(this);
 
-        context = this;
 
-        game = new Game(31, 31, this);
+        game = new Game(this);
+        drawGame = new DrawGame(this);
+
         v = new LabyrinthView(this, game);
-
         labyrinthContainer.addView(v);
 
         parent.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
@@ -95,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements
         sensorMagnet = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
 
+        settings = GameSettings.getInstance(this);
         listener = new SensorListener(this);
         setContentView(view);
 
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterSensors();
+        pauseGame();
     }
 
     @Override
@@ -137,9 +145,56 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void exitGame() {
+
+        drawGame.setPause(false);
+        drawGame.setRunning(false);
+
         finish();
     }
 
+
+    @Override
+    public void endGame() {
+        drawGame.setPause(true);
+        EndGameFragment.newInstance().show(getSupportFragmentManager(), "END_GAME");
+    }
+
+    @Override
+    public void pauseGame() {
+        drawGame.setPause(true);
+        if (!settings.getController().equals(settings.getDefaultController())) {
+            unregisterSensors();
+        }
+        PauseFragment.newInstance().show(getSupportFragmentManager(), "PAUSE_DIALOG");
+    }
+
+    @Override
+    public void startGame() {
+        drawGame.setPause(false);
+        if (!settings.getController().equals(settings.getDefaultController())) {
+            registerSensors();
+        }
+    }
+
+
+    @Override
+    public void loadGame(String filename) {
+
+        game.loadGame(filename);
+        setLabirynthViewSize();
+        startGame();
+    }
+
+    @Override
+    public void saveGame(String filename) {
+        game.saveGame(filename);
+    }
+
+
+    @Override
+    public void changeDirection(DirectionsEnum direction) {
+        game.changeDirection(direction);
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -172,66 +227,19 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    @Override
-    public void endGame() {
-        drawGame.setPause(true);
-        EndGameFragment.newInstance().show(getSupportFragmentManager(), "END_GAME");
-    }
-
-    @Override
-    public void pauseGame() {
-        drawGame.setPause(true);
-        PauseFragment.newInstance().show(getSupportFragmentManager(), PAUSE_DIALOG);
-    }
-
-    @Override
-    public void startGame() {
-        drawGame.setPause(false);
-    }
-
-    @Override
-    public void loadGame() {
-
-    }
-
-    @Override
-    public void saveGame() {
-
-    }
-
-    @Override
-    public void changeDirection(DirectionsEnum direction) {
-        if (game.getDirection() != direction) {
-            Log.d(TAG, "direction =  " + direction);
-            switch (direction) {
-                case DOWN:
-                    game.changeDirection(new DownDirection(game.getBall()));
-                    break;
-                case UP:
-                    game.changeDirection(new UpDirection(game.getBall()));
-                    break;
-                case LEFT:
-                    game.changeDirection(new LeftDirection(game.getBall()));
-                    break;
-                case RIGHT:
-                    game.changeDirection(new RightDirection(game.getBall()));
-                    break;
-                case NONE:
-                    game.changeDirection(new NoneDirection(game.getBall()));
-                    break;
-            }
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.pause_button:
-                Toast.makeText(context, "PAUSE", Toast.LENGTH_SHORT).show();
                 pauseGame();
                 break;
         }
+    }
+
+    private void setLabirynthViewSize() {
+        v.setLayoutParams(new FrameLayout.LayoutParams(game.getSize() * game.getColumnCount(),
+                game.getSize() * game.getRowCount()));
     }
 }

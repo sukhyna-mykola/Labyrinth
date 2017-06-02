@@ -1,4 +1,4 @@
-package devchallenge.labyrinth;
+package devchallenge.labyrinth.game;
 
 
 import java.util.ArrayList;
@@ -12,18 +12,17 @@ public class LabyrinthGenerator {
 
 
     private int rowCount, columnCount;
-    private int width, height;
 
-    public LabyrinthGenerator(int rowCount, int columnCount, int width, int height) {
+
+    public LabyrinthGenerator(int rowCount, int columnCount) {
         this.rowCount = rowCount;
         this.columnCount = columnCount;
-        this.width = width;
-        this.height = height;
+
     }
 
 
 
-    public Cell[][] generateMaze() {
+    public Cell[][] generateMaze(int width, int height) {
         Cell[][] maze = new Cell[rowCount][columnCount];
         // Initialize
         for (int i = 0; i < rowCount; i++)

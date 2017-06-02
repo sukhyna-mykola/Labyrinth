@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.util.Log;
 import android.view.Surface;
 
+import devchallenge.labyrinth.game.GameCallbacks;
 import devchallenge.labyrinth.models.direction.DirectionsEnum;
 
 public class SensorListener implements SensorEventListener {

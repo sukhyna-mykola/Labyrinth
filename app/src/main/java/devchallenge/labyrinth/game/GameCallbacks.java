@@ -1,18 +1,15 @@
-package devchallenge.labyrinth;
+package devchallenge.labyrinth.game;
 
 
+import devchallenge.labyrinth.LoaderCallbacks;
 import devchallenge.labyrinth.models.direction.DirectionsEnum;
 
-public interface GameCallbacks {
+public interface GameCallbacks extends LoaderCallbacks {
     void endGame();
 
     void pauseGame();
 
     void startGame();
-
-    void loadGame();
-
-    void saveGame();
 
     void update();
 
@@ -22,7 +19,4 @@ public interface GameCallbacks {
 
     void changeDirection(DirectionsEnum direction);
 
-    void registerSensors();
-
-    void unregisterSensors();
 }

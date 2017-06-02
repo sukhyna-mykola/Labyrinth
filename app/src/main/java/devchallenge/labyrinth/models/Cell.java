@@ -9,7 +9,11 @@ public abstract class Cell {
     protected int color;
     protected int row, column;
     protected int width, height;
+    protected String type;
 
+    public String getType() {
+        return type;
+    }
 
     public int getWidth() {
         return width;

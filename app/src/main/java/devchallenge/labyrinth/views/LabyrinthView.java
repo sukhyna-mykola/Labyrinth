@@ -1,4 +1,4 @@
-package devchallenge.labyrinth;
+package devchallenge.labyrinth.views;
 
 
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
+
+import devchallenge.labyrinth.game.Game;
 
 public class LabyrinthView extends View {
 
@@ -29,6 +31,7 @@ public class LabyrinthView extends View {
             for (int j = 0; j < game.getColumnCount(); j++)
                 if (game.getLabyrinth()[i][j] != null)
                     game.getLabyrinth()[i][j].draw(canvas, p);
+
         game.getBall().draw(canvas, p);
     }
 
