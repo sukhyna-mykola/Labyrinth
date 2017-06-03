@@ -1,36 +1,33 @@
 package devchallenge.labyrinth.dialogs;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import devchallenge.labyrinth.game.GameCallbacks;
 import devchallenge.labyrinth.R;
+import devchallenge.labyrinth.callbacks.GameCallbacks;
 
-import static devchallenge.labyrinth.dialogs.SavedGamesFragment.SAVED_GAMES_DIALOG;
+import static devchallenge.labyrinth.dialogs.SavedGamesDialog.SAVED_GAMES_DIALOG;
 
 
-public class EndGameFragment extends DialogFragment {
+public class EndGameDialog extends DialogSimple {
+
+    public static final String END_GAME_DIALOG = "END_GAME_DIALOG";
 
     private GameCallbacks callbacks;
 
-    public static EndGameFragment newInstance() {
-        EndGameFragment fragment = new EndGameFragment();
+    public static EndGameDialog newInstance() {
+        EndGameDialog fragment = new EndGameDialog();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
 
-    @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public View configureDialogView() {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_end_game, null);
         v.findViewById(R.id.new_game).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +39,7 @@ public class EndGameFragment extends DialogFragment {
         v.findViewById(R.id.load_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SavedGamesFragment.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SAVED_GAMES_DIALOG);
-                dismiss();
+                SavedGamesDialog.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SAVED_GAMES_DIALOG);
             }
         });
 
@@ -54,10 +50,9 @@ public class EndGameFragment extends DialogFragment {
                 dismiss();
             }
         });
-        return new AlertDialog.Builder(getContext())
-                .setView(v)
-                .create();
+        return v;
     }
+
 
     @Override
     public void onAttach(Context context) {

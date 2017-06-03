@@ -4,6 +4,7 @@ package devchallenge.labyrinth.helpers;
 import android.content.Context;
 
 import devchallenge.labyrinth.R;
+import devchallenge.labyrinth.callbacks.SettingsLoader;
 
 public class GameSettings {
 

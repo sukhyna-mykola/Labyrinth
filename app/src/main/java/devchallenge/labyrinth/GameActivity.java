@@ -14,14 +14,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
-import devchallenge.labyrinth.dialogs.EndGameFragment;
-import devchallenge.labyrinth.dialogs.PauseFragment;
+import devchallenge.labyrinth.callbacks.GameCallbacks;
+import devchallenge.labyrinth.callbacks.SensorCallbacks;
+import devchallenge.labyrinth.dialogs.EndGameDialog;
+import devchallenge.labyrinth.dialogs.PauseDialog;
 import devchallenge.labyrinth.game.DrawGame;
 import devchallenge.labyrinth.game.Game;
-import devchallenge.labyrinth.game.GameCallbacks;
 import devchallenge.labyrinth.helpers.GameSettings;
 import devchallenge.labyrinth.models.direction.DirectionsEnum;
 import devchallenge.labyrinth.views.LabyrinthView;
+
+import static devchallenge.labyrinth.dialogs.EndGameDialog.END_GAME_DIALOG;
+import static devchallenge.labyrinth.dialogs.PauseDialog.PAUSE_DIALOG;
 
 public class GameActivity extends AppCompatActivity implements
         View.OnClickListener, SensorCallbacks,
@@ -30,6 +34,7 @@ public class GameActivity extends AppCompatActivity implements
     private LabyrinthView v;
     private Game game;
     private ImageButton down, up, right, left;
+    private ImageButton solve;
     private DrawGame drawGame;
     private SensorListener listener;
     private RelativeLayout parent;
@@ -83,6 +88,8 @@ public class GameActivity extends AppCompatActivity implements
         right = (ImageButton) view.findViewById(R.id.move_right);
         left = (ImageButton) view.findViewById(R.id.move_left);
 
+        solve = (ImageButton) view.findViewById(R.id.solve_button);
+
         down.setOnTouchListener(this);
         right.setOnTouchListener(this);
         up.setOnTouchListener(this);
@@ -127,6 +134,12 @@ public class GameActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        startGame();
+    }
+
+    @Override
     public void update() {
         game.update();
         runOnUiThread(new Runnable() {
@@ -156,7 +169,7 @@ public class GameActivity extends AppCompatActivity implements
     @Override
     public void endGame() {
         drawGame.setPause(true);
-        EndGameFragment.newInstance().show(getSupportFragmentManager(), "END_GAME");
+        EndGameDialog.newInstance().show(getSupportFragmentManager(), END_GAME_DIALOG);
     }
 
     @Override
@@ -165,7 +178,8 @@ public class GameActivity extends AppCompatActivity implements
         if (!settings.getController().equals(settings.getDefaultController())) {
             unregisterSensors();
         }
-        PauseFragment.newInstance().show(getSupportFragmentManager(), "PAUSE_DIALOG");
+
+
     }
 
     @Override
@@ -194,6 +208,18 @@ public class GameActivity extends AppCompatActivity implements
     @Override
     public void changeDirection(DirectionsEnum direction) {
         game.changeDirection(direction);
+    }
+
+    @Override
+    public void showSolve() {
+        game.showSolve();
+        solve.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+    }
+
+    @Override
+    public void hideSolve() {
+        game.hideSolve();
+        solve.setImageResource(R.drawable.ic_visibility_black_24dp);
     }
 
     @Override
@@ -234,6 +260,15 @@ public class GameActivity extends AppCompatActivity implements
 
             case R.id.pause_button:
                 pauseGame();
+                PauseDialog.newInstance().show(getSupportFragmentManager(), PAUSE_DIALOG);
+                break;
+
+            case R.id.solve_button:
+                if (game.getSolvedLabyrinth() == null) {
+                    showSolve();
+                } else {
+                    hideSolve();
+                }
                 break;
         }
     }

@@ -1,7 +1,5 @@
-package devchallenge.labyrinth;
+package devchallenge.labyrinth.callbacks;
 
-
-import devchallenge.labyrinth.models.direction.DirectionsEnum;
 
 public interface SensorCallbacks {
 

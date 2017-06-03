@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import devchallenge.labyrinth.callbacks.GameCallbacks;
 import devchallenge.labyrinth.helpers.GameSaver;
 import devchallenge.labyrinth.helpers.GameSettings;
+import devchallenge.labyrinth.helpers.LabyrinthHelper;
 import devchallenge.labyrinth.models.Ball;
 import devchallenge.labyrinth.models.Border;
 import devchallenge.labyrinth.models.Cell;
@@ -36,19 +38,21 @@ public class Game implements GameCallbacks {
     private Ball ball;
 
     private DirectionState directionState;
-    private LabyrinthGenerator labyrinthGenerator;
+    private LabyrinthHelper labyrinthHelper;
     private int rowCount, columnCount;
     private int size;
     private GameCallbacks gameCallbacks;
 
     private GameSaver gameSaver;
     private Cell labyrinth[][];
+    private List<Cell> solvedLabyrinth;
     private GameSettings gameSettings;
 
 
     public Game(GameCallbacks gameCallbacks) {
         this.gameCallbacks = gameCallbacks;
 
+        labyrinthHelper = LabyrinthHelper.getInstance();
         gameSettings = GameSettings.getInstance((Context) gameCallbacks);
         gameSaver = GameSaver.getInstance((Context) gameCallbacks);
 
@@ -78,9 +82,7 @@ public class Game implements GameCallbacks {
 
         calculateCellSize();
 
-        labyrinthGenerator = new LabyrinthGenerator(rowCount, columnCount);
-
-        labyrinth = labyrinthGenerator.generateMaze(size, size);
+        labyrinth = labyrinthHelper.generateLabyrinth(rowCount, columnCount, size, size);
 
 
         if (gameSettings.getDefaultMode().equals(gameSettings.getMode())) {
@@ -95,11 +97,13 @@ public class Game implements GameCallbacks {
         labyrinth[endCell.getRow()][endCell.getColumn()] = endCell;
         labyrinth[startCell.getRow()][startCell.getColumn()] = startCell;
 
+        hideSolve();
+
         directionState = new NoneDirection(ball);
 
         gameCallbacks.startGame();
     }
-    
+
     @Override
     public void exitGame() {
         //------------
@@ -124,6 +128,7 @@ public class Game implements GameCallbacks {
     public void loadGame(String fileName) {
         try {
             gameSaver.load(fileName, this);
+            hideSolve();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,6 +167,22 @@ public class Game implements GameCallbacks {
             ball.resetV();
         }
 
+    }
+
+    @Override
+    public void showSolve() {
+        solvedLabyrinth = labyrinthHelper.solve(labyrinth, startCell, endCell);
+    }
+
+
+    @Override
+    public void hideSolve() {
+        solvedLabyrinth = null;
+
+    }
+
+    public List<Cell> getSolvedLabyrinth() {
+        return solvedLabyrinth;
     }
 
     public void setRowCount(int rowCount) {
@@ -241,6 +262,10 @@ public class Game implements GameCallbacks {
         }
     }
 
+    public void calculateCellSize() {
+        this.size = Math.min(WIDTH / columnCount, HEIGHT / rowCount);
+    }
+
     private void calculateRandomPosition() {
         List<Point> points = searchEmptyElements();
 
@@ -256,9 +281,6 @@ public class Game implements GameCallbacks {
 
     }
 
-    public void calculateCellSize() {
-        this.size = Math.min(WIDTH / columnCount, HEIGHT / rowCount);
-    }
 
     private List<Point> searchEmptyElements() {
         List<Point> points = new ArrayList<>();

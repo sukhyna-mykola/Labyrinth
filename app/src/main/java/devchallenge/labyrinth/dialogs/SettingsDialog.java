@@ -1,11 +1,7 @@
 package devchallenge.labyrinth.dialogs;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +12,7 @@ import devchallenge.labyrinth.R;
 import devchallenge.labyrinth.helpers.GameSettings;
 
 
-public class SettingsFragment extends DialogFragment {
+public class SettingsDialog extends DialogSimple {
 
     public static final String SETTINGS_DIALOG = "SETTINGS_DIALOG";
 
@@ -26,8 +22,8 @@ public class SettingsFragment extends DialogFragment {
 
     private GameSettings settings;
 
-    public static SettingsFragment newInstance() {
-        SettingsFragment fragment = new SettingsFragment();
+    public static SettingsDialog newInstance() {
+        SettingsDialog fragment = new SettingsDialog();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -39,9 +35,9 @@ public class SettingsFragment extends DialogFragment {
         settings = GameSettings.getInstance(getContext());
     }
 
-    @NonNull
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public View configureDialogView() {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_settings, null);
 
         sizeSpinner = (Spinner) v.findViewById(R.id.spinner_size);
@@ -51,7 +47,7 @@ public class SettingsFragment extends DialogFragment {
         sizeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, settings.getSizes());
         sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sizeSpinner.setAdapter(sizeAdapter);
-        sizeSpinner.setSelection(sizeAdapter.getPosition(settings.getSize()),true);
+        sizeSpinner.setSelection(sizeAdapter.getPosition(settings.getSize()), true);
         sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -69,7 +65,7 @@ public class SettingsFragment extends DialogFragment {
         modeAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, settings.getModes());
         modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modeSpinner.setAdapter(modeAdapter);
-        modeSpinner.setSelection(modeAdapter.getPosition(settings.getMode()),true);
+        modeSpinner.setSelection(modeAdapter.getPosition(settings.getMode()), true);
         modeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -84,11 +80,10 @@ public class SettingsFragment extends DialogFragment {
         });
 
 
-
         controllerAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, settings.getControllers());
         controllerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         controllerSpinner.setAdapter(controllerAdapter);
-        controllerSpinner.setSelection(controllerAdapter.getPosition(settings.getController()),true);
+        controllerSpinner.setSelection(controllerAdapter.getPosition(settings.getController()), true);
         controllerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -103,10 +98,17 @@ public class SettingsFragment extends DialogFragment {
         });
 
 
-        return new AlertDialog.Builder(getContext())
-                .setView(v)
-                .setTitle(getString(R.string.settings))
-                .create();
+        v.findViewById(R.id.positive_button).setOnClickListener(onClickListener);
+        v.findViewById(R.id.close_button).setOnClickListener(onClickListener);
+
+        return v;
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            dismiss();
+        }
+    };
 
 }

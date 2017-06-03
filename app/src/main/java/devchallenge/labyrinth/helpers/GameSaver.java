@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import devchallenge.labyrinth.callbacks.JsonLoader;
 import devchallenge.labyrinth.game.Game;
 import devchallenge.labyrinth.models.Ball;
 import devchallenge.labyrinth.models.Border;
@@ -90,6 +91,10 @@ public class GameSaver {
 
     public List<String> loadAll() {
         return jsonLoader.getAllJson(JSON);
+    }
+
+    public void remove(String fileName) {
+        jsonLoader.removeJson(fileName);
     }
 
 

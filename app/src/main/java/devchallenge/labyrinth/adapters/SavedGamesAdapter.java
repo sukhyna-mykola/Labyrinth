@@ -1,30 +1,35 @@
 package devchallenge.labyrinth.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
 
-import devchallenge.labyrinth.LoaderCallbacks;
+import devchallenge.labyrinth.R;
+import devchallenge.labyrinth.callbacks.LoaderCallbacks;
+import devchallenge.labyrinth.helpers.GameSaver;
 
 
 public class SavedGamesAdapter extends RecyclerView.Adapter<SavedGamesAdapter.ViewHolder> {
     private List<String> data;
+    private Context context;
+    private LoaderCallbacks callbacks;
 
-    private LoaderCallbacks callbackFile;
-
-    public SavedGamesAdapter(List<String> data, LoaderCallbacks  callbackFile) {
+    public SavedGamesAdapter(Context context, List<String> data, LoaderCallbacks callbacks) {
+        this.context = context;
         this.data = data;
-        this.callbackFile = callbackFile;
+        this.callbacks = callbacks;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView textView = (TextView) LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, null);
-        ViewHolder vh = new ViewHolder(textView);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_saved_game, null);
+        ViewHolder vh = new ViewHolder(v);
         return vh;
 
     }
@@ -32,13 +37,21 @@ public class SavedGamesAdapter extends RecyclerView.Adapter<SavedGamesAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final String file = data.get(position);
-        holder.fileName.setText(file);
-
-        holder.fileName.setOnClickListener(new View.OnClickListener() {
+        final String name = data.get(position);
+        holder.nameSavedGame.setText(name);
+        holder.deleteSavedGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callbackFile.loadGame(file);
+                GameSaver.getInstance(context).remove(name);
+                data.remove(name);
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callbacks.loadGame(name);
             }
         });
 
@@ -53,11 +66,15 @@ public class SavedGamesAdapter extends RecyclerView.Adapter<SavedGamesAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView fileName;
+        public TextView nameSavedGame;
+        public ImageButton deleteSavedGame;
+        public View v;
 
-        public ViewHolder(TextView view) {
+        public ViewHolder(View view) {
             super(view);
-            this.fileName = view;
+            this.v = view;
+            this.nameSavedGame = (TextView) v.findViewById(R.id.save_game_name);
+            this.deleteSavedGame = (ImageButton) v.findViewById(R.id.delete_saved_game);
 
         }
 

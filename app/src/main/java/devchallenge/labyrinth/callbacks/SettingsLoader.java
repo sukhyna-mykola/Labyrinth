@@ -1,4 +1,4 @@
-package devchallenge.labyrinth.helpers;
+package devchallenge.labyrinth.callbacks;
 
 
 public interface SettingsLoader {

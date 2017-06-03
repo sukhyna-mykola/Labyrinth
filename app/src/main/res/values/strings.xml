@@ -9,6 +9,12 @@
     <string name="settings">SETTINGS</string>
     <string name="exit">EXIT</string>
     <string name="ok">OK</string>
+    <string name="cencel">CENCEL</string>
+    <string name="pause">PAUSE</string>
+    <string name="end">END</string>
+    <string name="labyrinth_size">LABYRINTH SIZE</string>
+    <string name="mode">MODE</string>
+    <string name="controller">CONTROLLER</string>
 
     <string-array name="sizes">
         <item>21x21</item>

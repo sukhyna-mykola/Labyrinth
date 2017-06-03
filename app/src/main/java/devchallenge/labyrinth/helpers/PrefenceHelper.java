@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import devchallenge.labyrinth.callbacks.JsonLoader;
+import devchallenge.labyrinth.callbacks.SettingsLoader;
+
 import static android.content.Context.MODE_PRIVATE;
 import static devchallenge.labyrinth.helpers.GameSaver.JSON;
 import static devchallenge.labyrinth.helpers.GameSettings.CONTROLLER_KEY;
@@ -72,7 +75,7 @@ public class PrefenceHelper implements JsonLoader, SettingsLoader {
     @Override
     public void removeJson(String fileName) {
         SharedPreferences.Editor ed = sPref.edit();
-        ed.remove(fileName);
+        ed.remove(JSON+fileName);
         ed.commit();
     }
 

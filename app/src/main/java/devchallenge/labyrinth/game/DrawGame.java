@@ -3,7 +3,7 @@ package devchallenge.labyrinth.game;
 
 import android.util.Log;
 
-import devchallenge.labyrinth.game.GameCallbacks;
+import devchallenge.labyrinth.callbacks.GameCallbacks;
 
 
 public class DrawGame extends Thread {

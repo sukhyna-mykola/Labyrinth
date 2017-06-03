@@ -1,50 +1,124 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="devchallenge.labyrinth.dialogs.PauseFragment">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/labyrinth_size"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_dialog"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner_size"
+
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/m_dimen" />
-    </RelativeLayout>
+            android:background="@drawable/bg_title"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="10dp"
+            android:text="@string/settings"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-    <RelativeLayout
-        android:id="@+id/labyrinth_mode"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner_mode"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/labyrinth_size"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/m_dimen">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/s_dimen"
+                    android:text="@string/labyrinth_size" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/m_dimen" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/labyrinth_mode"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/m_dimen">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/s_dimen"
+                    android:text="@string/mode" />
+
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_mode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/m_dimen" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/labyrinth_controller"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/m_dimen">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/s_dimen"
+                    android:text="@string/controller" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/spinner_controller"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/m_dimen" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/m_dimen" />
-    </RelativeLayout>
+            android:layout_marginTop="6dp"
+            android:text="@string/ok"
+            android:textColor="@android:color/white" />
 
-    <RelativeLayout
-        android:id="@+id/labyrinth_controller"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    </LinearLayout>
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner_controller"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/m_dimen" />
-    </RelativeLayout>
-
-</LinearLayout>
+    <Button
+        android:id="@+id/close_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bt_dialog_close"
+        android:text="×"
+        android:textColor="#449dee" />
+</RelativeLayout>

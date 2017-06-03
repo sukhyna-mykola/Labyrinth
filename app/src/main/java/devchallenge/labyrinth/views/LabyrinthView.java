@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import devchallenge.labyrinth.game.Game;
+import devchallenge.labyrinth.models.Cell;
 
 public class LabyrinthView extends View {
 
@@ -31,6 +32,14 @@ public class LabyrinthView extends View {
             for (int j = 0; j < game.getColumnCount(); j++)
                 if (game.getLabyrinth()[i][j] != null)
                     game.getLabyrinth()[i][j].draw(canvas, p);
+
+
+
+        if (game.getSolvedLabyrinth() != null) {
+            for (Cell c : game.getSolvedLabyrinth()) {
+                c.draw(canvas, p);
+            }
+        }
 
         game.getBall().draw(canvas, p);
     }

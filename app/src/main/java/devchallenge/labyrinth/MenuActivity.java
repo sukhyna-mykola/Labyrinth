@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import devchallenge.labyrinth.dialogs.SavedGamesFragment;
-import devchallenge.labyrinth.dialogs.SettingsFragment;
+import devchallenge.labyrinth.callbacks.LoaderCallbacks;
+import devchallenge.labyrinth.dialogs.SavedGamesDialog;
+import devchallenge.labyrinth.dialogs.SettingsDialog;
 
-import static devchallenge.labyrinth.dialogs.SavedGamesFragment.SAVED_GAMES_DIALOG;
-import static devchallenge.labyrinth.dialogs.SettingsFragment.SETTINGS_DIALOG;
+import static devchallenge.labyrinth.dialogs.SavedGamesDialog.SAVED_GAMES_DIALOG;
+import static devchallenge.labyrinth.dialogs.SettingsDialog.SETTINGS_DIALOG;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener, LoaderCallbacks {
 
@@ -27,10 +28,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.load_game:
-                SavedGamesFragment.newInstance().show(getSupportFragmentManager(), SAVED_GAMES_DIALOG);
+                SavedGamesDialog.newInstance().show(getSupportFragmentManager(), SAVED_GAMES_DIALOG);
                 break;
             case R.id.settings:
-                SettingsFragment.newInstance().show(getSupportFragmentManager(), SETTINGS_DIALOG);
+                SettingsDialog.newInstance().show(getSupportFragmentManager(), SETTINGS_DIALOG);
                 break;
             case R.id.exit:
                 break;
