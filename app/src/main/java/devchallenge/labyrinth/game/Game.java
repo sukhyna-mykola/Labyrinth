@@ -93,7 +93,7 @@ public class Game implements GameCallbacks {
         labyrinth[endCell.getRow()][endCell.getColumn()] = endCell;
         labyrinth[startCell.getRow()][startCell.getColumn()] = startCell;
 
-        hideSolve();
+        hideSolution();
 
         directionState = new NoneDirection(ball);
 
@@ -124,7 +124,7 @@ public class Game implements GameCallbacks {
     public void loadGame(String fileName) {
         try {
             gameSaver.load(fileName, this);
-            hideSolve();
+            hideSolution();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -167,13 +167,13 @@ public class Game implements GameCallbacks {
     }
 
     @Override
-    public void showSolve() {
+    public void showSolution() {
         solvedLabyrinth = labyrinthHelper.solve(labyrinth, startCell, endCell);
     }
 
 
     @Override
-    public void hideSolve() {
+    public void hideSolution() {
         solvedLabyrinth = null;
 
     }

@@ -15,6 +15,8 @@
     <string name="labyrinth_size">LABYRINTH SIZE</string>
     <string name="mode">MODE</string>
     <string name="controller">CONTROLLER</string>
+    <string name="solution_shown">Solution shown</string>
+    <string name="solution_hidden">Solution hidden</string>
 
     <string-array name="sizes">
         <item>11x11</item>

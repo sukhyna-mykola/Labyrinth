@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import devchallenge.labyrinth.callbacks.GameCallbacks;
 import devchallenge.labyrinth.callbacks.SensorCallbacks;
@@ -42,6 +44,7 @@ public class GameActivity extends AppCompatActivity implements
     private RelativeLayout parent;
     private FrameLayout labyrinthContainer;
     private GridLayout controllerView;
+    private TextView message;
 
     private Game game;
     private DrawGame drawGame;
@@ -97,6 +100,8 @@ public class GameActivity extends AppCompatActivity implements
 
         solve = (ImageButton) view.findViewById(R.id.solve_button);
         controller = (ImageButton) view.findViewById(R.id.controller_button);
+
+        message = (TextView) view.findViewById(R.id.message);
 
         down.setOnTouchListener(this);
         right.setOnTouchListener(this);
@@ -220,15 +225,17 @@ public class GameActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showSolve() {
-        game.showSolve();
+    public void showSolution() {
+        game.showSolution();
         solve.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+        showMessage(getString(R.string.solution_shown));
     }
 
     @Override
-    public void hideSolve() {
-        game.hideSolve();
+    public void hideSolution() {
+        game.hideSolution();
         solve.setImageResource(R.drawable.ic_visibility_black_24dp);
+        showMessage(getString(R.string.solution_hidden));
     }
 
     @Override
@@ -273,9 +280,9 @@ public class GameActivity extends AppCompatActivity implements
 
             case R.id.solve_button:
                 if (game.getSolvedLabyrinth() == null) {
-                    showSolve();
+                    showSolution();
                 } else {
-                    hideSolve();
+                    hideSolution();
                 }
                 break;
 
@@ -300,10 +307,13 @@ public class GameActivity extends AppCompatActivity implements
             controller.setImageResource(R.drawable.ic_screen_rotation_black_24dp);
             setEnabledControlButtons(true);
             unregisterSensors();
+            showMessage("Accelerometer deactivated");
         } else {
             controller.setImageResource(R.drawable.ic_screen_lock_rotation_black_24dp);
             setEnabledControlButtons(false);
             registerSensors();
+            showMessage("Accelerometer activated");
+
         }
     }
 
@@ -311,6 +321,19 @@ public class GameActivity extends AppCompatActivity implements
         for (int i = 0; i < controllerView.getChildCount(); i++) {
             controllerView.getChildAt(i).setEnabled(state);
         }
+
+    }
+
+    private void showMessage(String text) {
+        message.setText(text);
+        message.setVisibility(View.VISIBLE);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                message.setVisibility(View.GONE);
+            }
+        }, 2000);
 
     }
 

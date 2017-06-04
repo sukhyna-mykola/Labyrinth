@@ -19,8 +19,8 @@ public interface GameCallbacks extends LoaderCallbacks {
 
     void changeDirection(DirectionsEnum direction);
 
-    void showSolve();
+    void showSolution();
 
-    void hideSolve();
+    void hideSolution();
 
 }
