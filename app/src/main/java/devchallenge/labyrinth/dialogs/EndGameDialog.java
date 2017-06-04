@@ -10,6 +10,7 @@ import devchallenge.labyrinth.R;
 import devchallenge.labyrinth.callbacks.GameCallbacks;
 
 import static devchallenge.labyrinth.dialogs.SavedGamesDialog.SAVED_GAMES_DIALOG;
+import static devchallenge.labyrinth.dialogs.SettingsDialog.SETTINGS_DIALOG;
 
 
 public class EndGameDialog extends DialogSimple {
@@ -42,7 +43,12 @@ public class EndGameDialog extends DialogSimple {
                 SavedGamesDialog.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SAVED_GAMES_DIALOG);
             }
         });
-
+        v.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsDialog.newInstance().show(((AppCompatActivity) getContext()).getSupportFragmentManager(), SETTINGS_DIALOG);
+            }
+        });
         v.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,6 +56,8 @@ public class EndGameDialog extends DialogSimple {
                 dismiss();
             }
         });
+
+
         return v;
     }
 

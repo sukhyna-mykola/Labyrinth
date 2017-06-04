@@ -36,17 +36,19 @@ public class Game implements GameCallbacks {
 
     private LabelCell endCell, startCell;
     private Ball ball;
+    private Cell labyrinth[][];
+    private List<Cell> solvedLabyrinth;
 
     private DirectionState directionState;
-    private LabyrinthHelper labyrinthHelper;
+
     private int rowCount, columnCount;
-    private int size;
+    private int cellSize;
+
     private GameCallbacks gameCallbacks;
 
     private GameSaver gameSaver;
-    private Cell labyrinth[][];
-    private List<Cell> solvedLabyrinth;
     private GameSettings gameSettings;
+    private LabyrinthHelper labyrinthHelper;
 
 
     public Game(GameCallbacks gameCallbacks) {
@@ -66,12 +68,6 @@ public class Game implements GameCallbacks {
         if (ball.getColumn() == endCell.getColumn() && ball.getRow() == endCell.getRow()) {
             endGame();
         }
-     /*   if (row != ball.getRow() || column != ball.getColumn()) {
-            labyrinth[row][column] = null;
-            row = ball.getRow();
-            column = ball.getColumn();
-            labyrinth[row][column] = ball;
-        }*/
     }
 
     @Override
@@ -82,17 +78,17 @@ public class Game implements GameCallbacks {
 
         calculateCellSize();
 
-        labyrinth = labyrinthHelper.generateLabyrinth(rowCount, columnCount, size, size);
+        labyrinth = labyrinthHelper.generateLabyrinth(rowCount, columnCount, cellSize, cellSize);
 
 
         if (gameSettings.getDefaultMode().equals(gameSettings.getMode())) {
-            endCell = new LabelCell(rowCount - 2, columnCount - 1, size, size, Color.GREEN, LabelCell.LABEL_CELL_FINISH);
-            startCell = new LabelCell(0, 1, size, size, Color.WHITE, LabelCell.LABEL_CELL_START);
+            endCell = new LabelCell(rowCount - 2, columnCount - 1, cellSize, cellSize, Color.GREEN, LabelCell.LABEL_CELL_FINISH);
+            startCell = new LabelCell(0, 1, cellSize, cellSize, Color.YELLOW, LabelCell.LABEL_CELL_START);
         } else {
             calculateRandomPosition();
         }
 
-        ball = new Ball(startCell.getRow(), startCell.getColumn(), size, size);
+        ball = new Ball(startCell.getRow(), startCell.getColumn(), cellSize, cellSize);
 
         labyrinth[endCell.getRow()][endCell.getColumn()] = endCell;
         labyrinth[startCell.getRow()][startCell.getColumn()] = startCell;
@@ -145,27 +141,28 @@ public class Game implements GameCallbacks {
 
     @Override
     public void changeDirection(DirectionsEnum direction) {
-        if (directionState.getDirection() != direction) {
-            Log.d(TAG, "direction =  " + direction);
-            switch (direction) {
-                case DOWN:
-                    directionState = new DownDirection(ball);
-                    break;
-                case UP:
-                    directionState = new UpDirection(ball);
-                    break;
-                case LEFT:
-                    directionState = new LeftDirection(ball);
-                    break;
-                case RIGHT:
-                    directionState = new RightDirection(getBall());
-                    break;
-                case NONE:
-                    directionState = new NoneDirection(getBall());
-                    break;
+        if (directionState != null)
+            if (directionState.getDirection() != direction) {
+                Log.d(TAG, "direction =  " + direction);
+                switch (direction) {
+                    case DOWN:
+                        directionState = new DownDirection(ball);
+                        break;
+                    case UP:
+                        directionState = new UpDirection(ball);
+                        break;
+                    case LEFT:
+                        directionState = new LeftDirection(ball);
+                        break;
+                    case RIGHT:
+                        directionState = new RightDirection(ball);
+                        break;
+                    case NONE:
+                        directionState = new NoneDirection(ball);
+                        break;
+                }
+                ball.resetV();
             }
-            ball.resetV();
-        }
 
     }
 
@@ -210,7 +207,7 @@ public class Game implements GameCallbacks {
     }
 
     public int getSize() {
-        return size;
+        return cellSize;
     }
 
     public Ball getBall() {
@@ -263,7 +260,7 @@ public class Game implements GameCallbacks {
     }
 
     public void calculateCellSize() {
-        this.size = Math.min(WIDTH / columnCount, HEIGHT / rowCount);
+        this.cellSize = Math.min(WIDTH / columnCount, HEIGHT / rowCount);
     }
 
     private void calculateRandomPosition() {
@@ -271,12 +268,12 @@ public class Game implements GameCallbacks {
 
         int pos = new Random().nextInt(points.size());
         Point p = points.get(pos);
-        startCell = new LabelCell(p.x, p.y, size, size, Color.WHITE, LabelCell.LABEL_CELL_START);
+        startCell = new LabelCell(p.x, p.y, cellSize, cellSize, Color.YELLOW, LabelCell.LABEL_CELL_START);
         points.remove(p);
 
         pos = new Random().nextInt(points.size());
         p = points.get(pos);
-        endCell = new LabelCell(p.x, p.y, size, size, Color.GREEN, LabelCell.LABEL_CELL_FINISH);
+        endCell = new LabelCell(p.x, p.y, cellSize, cellSize, Color.GREEN, LabelCell.LABEL_CELL_FINISH);
 
 
     }

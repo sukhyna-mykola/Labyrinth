@@ -17,6 +17,7 @@
     <string name="controller">CONTROLLER</string>
 
     <string-array name="sizes">
+        <item>11x11</item>
         <item>21x21</item>
         <item>31x31</item>
         <item>41x41</item>

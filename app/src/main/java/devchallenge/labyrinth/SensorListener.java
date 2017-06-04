@@ -5,55 +5,25 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 
 import devchallenge.labyrinth.callbacks.GameCallbacks;
 import devchallenge.labyrinth.models.direction.DirectionsEnum;
 
 public class SensorListener implements SensorEventListener {
+
+    public static final float e = (float) Math.PI / (2 * 9); //10
+
     private GameCallbacks callbacks;
-    public static final float e = (float) 0.1;
-    public static final String TAG = "SENSOR";
+
+    private float[] valuesAccel = new float[3];
+    private float[] valuesMagnet = new float[3];
+    private float[] valuesResult = new float[3];
+    private float[] r = new float[9];
 
     public SensorListener(GameCallbacks callbacks) {
         this.callbacks = callbacks;
     }
 
-    float[] r = new float[9];
-
-    private void getDeviceOrientation() {
-        SensorManager.getRotationMatrix(r, null, valuesAccel, valuesMagnet);
-        SensorManager.getOrientation(r, valuesResult);
-
-
-
-        Log.d(TAG, "y = " + valuesResult[1] + " x = " + valuesResult[2]);
-
-
-        if (Math.abs(valuesResult[1]) > e || Math.abs(valuesResult[2]) > e) {
-            if (Math.abs(valuesResult[1]) < Math.abs(valuesResult[2])) {
-                if (valuesResult[2] > 0) {
-                    callbacks.changeDirection(DirectionsEnum.RIGHT);
-                } else {
-                    callbacks.changeDirection(DirectionsEnum.LEFT);
-                }
-            } else {
-                if (valuesResult[1] > 0) {
-                    callbacks.changeDirection(DirectionsEnum.UP);
-                } else {
-                    callbacks.changeDirection(DirectionsEnum.DOWN);
-                }
-            }
-        } else {
-            callbacks.changeDirection(DirectionsEnum.NONE);
-        }
-
-    }
-
-
-    float[] valuesAccel = new float[3];
-    float[] valuesMagnet = new float[3];
-    float[] valuesResult = new float[3];
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -75,4 +45,29 @@ public class SensorListener implements SensorEventListener {
         }
         getDeviceOrientation();
     }
+
+    private void getDeviceOrientation() {
+        SensorManager.getRotationMatrix(r, null, valuesAccel, valuesMagnet);
+        SensorManager.getOrientation(r, valuesResult);
+
+        if (Math.abs(valuesResult[1]) > e || Math.abs(valuesResult[2]) > e) {
+            if (Math.abs(valuesResult[1]) < Math.abs(valuesResult[2])) {
+                if (valuesResult[2] > 0) {
+                    callbacks.changeDirection(DirectionsEnum.RIGHT);
+                } else {
+                    callbacks.changeDirection(DirectionsEnum.LEFT);
+                }
+            } else {
+                if (valuesResult[1] > 0) {
+                    callbacks.changeDirection(DirectionsEnum.UP);
+                } else {
+                    callbacks.changeDirection(DirectionsEnum.DOWN);
+                }
+            }
+        } else {
+            callbacks.changeDirection(DirectionsEnum.NONE);
+        }
+
+    }
+
 }

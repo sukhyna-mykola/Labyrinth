@@ -26,8 +26,8 @@
             android:padding="10dp"
             android:text="@string/end"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
+            android:textSize="18sp"
+            android:typeface="serif" />
         />
 
 
@@ -54,6 +54,12 @@
                     android:layout_gravity="fill_horizontal"
                     android:layout_margin="@dimen/s_dimen"
                     android:text="@string/load_game" />
+
+                <Button
+                    android:id="@+id/settings"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_margin="@dimen/s_dimen"
+                    android:text="@string/settings" />
 
                 <Button
                     android:id="@+id/menu"

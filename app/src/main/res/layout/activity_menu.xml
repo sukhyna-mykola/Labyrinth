@@ -10,7 +10,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="devchallenge.labyrinth.MenuActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/menu_grid"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:typeface="serif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/title_text_size" />
+    </LinearLayout>
+
+
     <GridLayout
+        android:id="@+id/menu_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

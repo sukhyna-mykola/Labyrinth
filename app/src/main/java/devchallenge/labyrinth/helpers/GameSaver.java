@@ -21,7 +21,7 @@ public class GameSaver {
 
     public static final String WIDTH = "width";
     public static final String HEIGHT = "height";
-    public static final String PIXELS = "pixels";
+    public static final String CELLS = "cells";
 
     public static final String BALL = "ball";
 
@@ -30,18 +30,13 @@ public class GameSaver {
 
     public static final String TYPE = "type";
 
-
-    private static final String DIR = "ANSI";
-    public static final String TXT = ".txt";
-
-
     public static final String JSON = "JSON_";
 
 
     private JsonLoader jsonLoader;
     private JsonHelper jsonHelper;
 
-    private static GameSaver fileHelper;
+    private static GameSaver saver;
 
     private Context context;
 
@@ -53,31 +48,15 @@ public class GameSaver {
     }
 
     public static GameSaver getInstance(Context context) {
-        if (fileHelper == null)
-            fileHelper = new GameSaver(context);
-        return fileHelper;
+        if (saver == null)
+            saver = new GameSaver(context);
+        return saver;
     }
 
-/*
-    public List<String> getFilesInDirecory() {
 
-        File sdPath = Environment.getExternalStorageDirectory();
-        File directory = new File(sdPath.getAbsolutePath() + "/" + DIR);
-        directory.mkdirs();
-        List<String> result = new ArrayList<>();
-        for (File file : directory.listFiles()) {
-            if (!file.isDirectory() && file.getName().endsWith(TXT))
-                result.add(file.getName());
-
-        }
-        return result;
-
-
-    }*/
 
     public void load(String fileName, Game game) throws JSONException {
-        // String data = readFile(fileName);
-        // JSONObject object = new JSONObject(data);
+
         JSONObject savedGame = jsonLoader.loadJson(fileName);
         jsonHelper.labyrinthFromJson(savedGame, game);
     }
@@ -85,7 +64,7 @@ public class GameSaver {
     public void save(String fileName, Game game) throws JSONException {
         JSONObject savingGame = jsonHelper.labyrinthToJson(game);
         jsonLoader.saveJson(savingGame, fileName);
-        // writeFile(labyrinyhToJson(game).toString(), fileName);
+
 
     }
 
@@ -97,45 +76,6 @@ public class GameSaver {
         jsonLoader.removeJson(fileName);
     }
 
-
-   /* private boolean writeFile(String data, String fileName) {
-        try {
-
-            BufferedWriter bw = new BufferedWriter(
-                    new OutputStreamWriter(context.openFileOutput(fileName, MODE_PRIVATE)));
-
-            bw.write(data);
-
-            bw.close();
-
-            return true;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private String readFile(String fileName) {
-        String result = new String();
-        try {
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    context.openFileInput(fileName)));
-            String str = "";
-
-            while ((str = br.readLine()) != null) {
-                result += str;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }*/
 
     private class JsonHelper {
         //---------------------------------------
@@ -159,7 +99,7 @@ public class GameSaver {
 
                 }
             }
-            o.put(PIXELS, array);
+            o.put(CELLS, array);
 
             return o;
         }
@@ -190,7 +130,7 @@ public class GameSaver {
 
             Cell[][] cells = new Cell[width][height];
 
-            JSONArray a = o.getJSONArray(PIXELS);
+            JSONArray a = o.getJSONArray(CELLS);
             for (int i = 0; i < a.length(); i++) {
                 JSONObject object = a.getJSONObject(i);
 

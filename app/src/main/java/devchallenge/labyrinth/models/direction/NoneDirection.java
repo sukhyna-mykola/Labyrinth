@@ -7,7 +7,7 @@ import devchallenge.labyrinth.models.Ball;
 public class NoneDirection extends DirectionState {
     @Override
     public void move(Ball ball) {
-
+//------------------
     }
 
 

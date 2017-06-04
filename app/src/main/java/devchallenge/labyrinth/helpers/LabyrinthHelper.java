@@ -40,7 +40,6 @@ public class LabyrinthHelper {
             for (int j = 0; j < columnCount; j++)
                 labyrinth[i][j] = new Border(i, j, width, height);
 
-
         build(1, 1, labyrinth);
 
         return labyrinth;
@@ -123,8 +122,7 @@ public class LabyrinthHelper {
         List<Cell> res = new ArrayList<>();
 
         for (Node node : bfs(startNode, n)) {
-            res.add(new LabelCell(node.getRow(), node.getColumn(), size, size, Color.YELLOW, ""));
-            // l[node.getRow()][node.getColumn()] = new LabelCell(node.getRow(), node.getColumn(), size, size, Color.YELLOW, "");
+            res.add(new LabelCell(node.getRow(), node.getColumn(), size, size, Color.YELLOW, "SOLVE_CELL"));
         }
 
 
@@ -134,7 +132,7 @@ public class LabyrinthHelper {
 
 
 
-    private List<Node> bfs(Node v, Node[][] l) {
+    private List<Node> bfs(Node v, Node[][] l) {    //пошук в ширину
 
         nodes.add(v);
         v.visited = true;

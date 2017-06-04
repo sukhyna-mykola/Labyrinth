@@ -10,10 +10,9 @@ public class Border extends Cell {
 
     public Border(int row, int column, int width, int height) {
         super(row, column, width, height);
-        this.color  = Color.BLUE;
+        this.color = Color.BLUE;
         this.type = BORDER_CELL;
     }
-
 
 
     @Override

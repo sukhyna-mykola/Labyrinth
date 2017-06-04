@@ -9,13 +9,12 @@ import static devchallenge.labyrinth.models.Ball.MAX_V;
 public class UpDirection extends DirectionState {
     @Override
     public void move(Ball ball) {
-        ball.vy -= ball.a;
+        ball.vy -= ball.dv;
         if (ball.vy < -MAX_V) {
             ball.vy = -MAX_V;
         }
 
         ball.setY(ball.getY() + ball.vy);
-
 
         ball.setRow((int) ((ball.getY() + ball.getHeight()) / ball.getHeight()));
     }

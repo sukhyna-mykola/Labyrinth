@@ -32,20 +32,21 @@ public class GameActivity extends AppCompatActivity implements
         View.OnClickListener, SensorCallbacks,
         View.OnTouchListener, GameCallbacks {
 
-    private LabyrinthView v;
-    private Game game;
+    public static final String LOAD_GAME = "LOAD_GAME";
+
+    public static int WIDTH, HEIGHT;
+
+    private LabyrinthView labyrinthView;
     private ImageButton down, up, right, left;
     private ImageButton solve, controller;
-    private DrawGame drawGame;
-    private SensorListener listener;
     private RelativeLayout parent;
     private FrameLayout labyrinthContainer;
     private GridLayout controllerView;
 
-    public static int WIDTH, HEIGHT;
+    private Game game;
+    private DrawGame drawGame;
 
-    public static final String LOAD_GAME = "LOAD_GAME";
-
+    private SensorListener listener;
     private SensorManager sensorManager;
     private Sensor sensorAccel;
     private Sensor sensorMagnet;
@@ -69,6 +70,7 @@ public class GameActivity extends AppCompatActivity implements
 
 
             setLabirynthViewSize();
+            setControllerButtonImage();
 
             drawGame.start();
 
@@ -105,8 +107,8 @@ public class GameActivity extends AppCompatActivity implements
         game = new Game(this);
         drawGame = new DrawGame(this);
 
-        v = new LabyrinthView(this, game);
-        labyrinthContainer.addView(v);
+        labyrinthView = new LabyrinthView(this, game);
+        labyrinthContainer.addView(labyrinthView);
 
         parent.getViewTreeObserver().addOnGlobalLayoutListener(globalLayoutListener);
 
@@ -117,8 +119,6 @@ public class GameActivity extends AppCompatActivity implements
 
         settings = GameSettings.getInstance(this);
         listener = new SensorListener(this);
-
-        setControllerButtonImage();
 
         setContentView(view);
 
@@ -154,7 +154,7 @@ public class GameActivity extends AppCompatActivity implements
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                v.invalidate();
+                labyrinthView.update();
             }
         });
 
@@ -291,7 +291,7 @@ public class GameActivity extends AppCompatActivity implements
     }
 
     private void setLabirynthViewSize() {
-        v.setLayoutParams(new FrameLayout.LayoutParams(game.getSize() * game.getColumnCount(),
+        labyrinthView.setLayoutParams(new FrameLayout.LayoutParams(game.getSize() * game.getColumnCount(),
                 game.getSize() * game.getRowCount()));
     }
 
@@ -313,6 +313,5 @@ public class GameActivity extends AppCompatActivity implements
         }
 
     }
-
 
 }

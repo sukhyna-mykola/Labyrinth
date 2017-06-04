@@ -8,7 +8,6 @@ import devchallenge.labyrinth.callbacks.GameCallbacks;
 
 public class DrawGame extends Thread {
     private boolean running;
-
     private boolean pause;
 
     public static int FPS = 60;

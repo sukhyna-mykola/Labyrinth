@@ -9,7 +9,7 @@ import static devchallenge.labyrinth.models.Ball.MAX_V;
 public class RightDirection extends DirectionState {
     @Override
     public void move(Ball ball) {
-        ball.vx += ball.a;
+        ball.vx += ball.dv;
         if (ball.vx > MAX_V) {
             ball.vx = MAX_V;
         }

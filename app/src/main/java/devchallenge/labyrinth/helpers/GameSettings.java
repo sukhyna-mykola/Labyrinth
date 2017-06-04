@@ -38,7 +38,7 @@ public class GameSettings {
         modes = c.getResources().getStringArray(R.array.modes);
         controllers = c.getResources().getStringArray(R.array.controllers);
 
-        defaultSize = sizes[0];
+        defaultSize = sizes[1];
         defaultMode = modes[0];
         defaultController = controllers[0];
 

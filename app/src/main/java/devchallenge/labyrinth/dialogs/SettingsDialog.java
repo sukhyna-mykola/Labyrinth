@@ -97,7 +97,6 @@ public class SettingsDialog extends DialogSimple {
             }
         });
 
-
         v.findViewById(R.id.positive_button).setOnClickListener(onClickListener);
         v.findViewById(R.id.close_button).setOnClickListener(onClickListener);
 
