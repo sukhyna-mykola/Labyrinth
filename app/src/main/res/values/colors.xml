@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="black_overlay">#66000000</color>
-    <color name="wite_overlay">#A0ffffff</color>
-    <color name="back_true">#E0FFFF</color>
-    <color name="back_false">#FFF</color>
+    <color name="white">#fff</color>
+
     <color name="blue">#449dee</color>
+    <color name="blue_dark">#2f6699</color>
+
+    <color name="orange_dark">#bb6008</color>
+    <color name="orange_light">#f3ae1b</color>
+
+
 
 </resources>

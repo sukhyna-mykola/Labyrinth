@@ -117,17 +117,14 @@ public class GameSettings {
     }
 
 
-
     public int getColumnCount() {
         return columnCount;
     }
 
 
-
     public String getMode() {
         return mode;
     }
-
 
 
     public String getController() {

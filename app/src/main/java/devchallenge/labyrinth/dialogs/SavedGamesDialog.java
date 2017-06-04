@@ -3,6 +3,7 @@ package devchallenge.labyrinth.dialogs;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +38,11 @@ public class SavedGamesDialog extends DialogSimple implements LoaderCallbacks {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        adapter = new SavedGamesAdapter(getContext(), GameSaver.getInstance(getContext()).loadAll(), this);
+    }
 
     @Override
     public View configureDialogView() {
@@ -45,10 +51,7 @@ public class SavedGamesDialog extends DialogSimple implements LoaderCallbacks {
 
         list = (RecyclerView) v.findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SavedGamesAdapter(getContext(), GameSaver.getInstance(getContext()).loadAll(), this);
-
         list.setAdapter(adapter);
-
 
         v.findViewById(R.id.cencel_button).setOnClickListener(onClickListener);
         v.findViewById(R.id.close_button).setOnClickListener(onClickListener);
@@ -79,6 +82,8 @@ public class SavedGamesDialog extends DialogSimple implements LoaderCallbacks {
     public void loadGame(String filename) {
         callback.loadGame(filename);
 
+
+        //закрити всі відкриті діалоги і почати гру
         FragmentManager m = ((AppCompatActivity) getContext()).getSupportFragmentManager();
         for (Fragment f : m.getFragments()) {
             if (f instanceof DialogFragment)

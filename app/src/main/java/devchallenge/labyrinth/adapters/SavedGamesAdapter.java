@@ -44,7 +44,8 @@ public class SavedGamesAdapter extends RecyclerView.Adapter<SavedGamesAdapter.Vi
             public void onClick(View v) {
                 GameSaver.getInstance(context).remove(name);
                 data.remove(name);
-                notifyDataSetChanged();
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, getItemCount());
             }
         });
 

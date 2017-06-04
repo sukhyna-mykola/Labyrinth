@@ -28,7 +28,7 @@ public class SaveDialog extends DialogSimple {
 
     @Override
     public View configureDialogView() {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.save_dialog, null);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.fragment_save, null);
         final EditText editText = (EditText) v.findViewById(R.id.fileNameInputField);
 
         v.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {

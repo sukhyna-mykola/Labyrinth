@@ -5,7 +5,7 @@
     <string name="new_game">NEW GAME</string>
     <string name="load_game">LOAD GAME</string>
     <string name="menu">MENU</string>
-    <string name="save_game">SAVE_GAME</string>
+    <string name="save_game">SAVE GAME</string>
     <string name="settings">SETTINGS</string>
     <string name="exit">EXIT</string>
     <string name="ok">OK</string>
@@ -18,7 +18,6 @@
 
     <string-array name="sizes">
         <item>21x21</item>
-        <item>11x11</item>
         <item>31x31</item>
         <item>41x41</item>
     </string-array>

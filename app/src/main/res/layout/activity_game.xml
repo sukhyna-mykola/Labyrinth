@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="devchallenge.labyrinth.GameActivity">
 
+    <ImageButton
+        android:id="@+id/pause_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/blue_button"
+        android:onClick="onClick"
+        android:src="@drawable/ic_pause_black_24dp" />
+
     <RelativeLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/controll_view"
+        android:layout_below="@+id/pause_button"
         android:layout_centerHorizontal="true">
 
         <FrameLayout
@@ -40,17 +50,21 @@
             android:id="@+id/move_up"
             android:layout_column="1"
             android:layout_columnSpan="2"
+            android:background="@drawable/orange_button"
+            android:clickable="true"
             android:onClick="onClick"
             android:src="@drawable/ic_arrow_upward_black_24dp" />
 
         <ImageButton
             android:id="@+id/move_left"
+            android:background="@drawable/orange_button"
             android:onClick="onClick"
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <ImageButton
             android:id="@+id/move_right"
             android:layout_column="2"
+            android:background="@drawable/orange_button"
             android:onClick="onClick"
             android:rotation="180"
             android:src="@drawable/ic_arrow_back_black_24dp" />
@@ -59,18 +73,12 @@
             android:id="@+id/move_down"
             android:layout_column="1"
             android:layout_row="2"
+            android:background="@drawable/orange_button"
             android:onClick="onClick"
             android:rotation="180"
             android:src="@drawable/ic_arrow_upward_black_24dp" />
     </GridLayout>
 
-    <ImageButton
-        android:id="@+id/pause_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:onClick="onClick"
-        android:src="@drawable/ic_pause_black_24dp" />
 
     <ImageButton
         android:id="@+id/solve_button"
@@ -80,4 +88,12 @@
         android:onClick="onClick"
         android:src="@drawable/ic_visibility_black_24dp" />
 
+
+    <ImageButton
+        android:id="@+id/controller_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onClick" />
 </RelativeLayout>

@@ -19,24 +19,28 @@
         <Button
             android:id="@+id/new_game"
             android:layout_gravity="fill_horizontal"
+            android:layout_margin="@dimen/s_dimen"
             android:onClick="onClick"
             android:text="@string/new_game" />
 
         <Button
             android:id="@+id/load_game"
             android:layout_gravity="fill_horizontal"
+            android:layout_margin="@dimen/s_dimen"
             android:onClick="onClick"
             android:text="@string/load_game" />
 
         <Button
             android:id="@+id/settings"
             android:layout_gravity="fill_horizontal"
+            android:layout_margin="@dimen/s_dimen"
             android:onClick="onClick"
             android:text="@string/settings" />
 
         <Button
             android:id="@+id/exit"
             android:layout_gravity="fill_horizontal"
+            android:layout_margin="@dimen/s_dimen"
             android:onClick="onClick"
             android:text="@string/exit" />
 

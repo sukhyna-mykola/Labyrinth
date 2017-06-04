@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
@@ -34,11 +35,12 @@ public class GameActivity extends AppCompatActivity implements
     private LabyrinthView v;
     private Game game;
     private ImageButton down, up, right, left;
-    private ImageButton solve;
+    private ImageButton solve, controller;
     private DrawGame drawGame;
     private SensorListener listener;
     private RelativeLayout parent;
     private FrameLayout labyrinthContainer;
+    private GridLayout controllerView;
 
     public static int WIDTH, HEIGHT;
 
@@ -79,16 +81,20 @@ public class GameActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_game, null);
 
         parent = (RelativeLayout) view.findViewById(R.id.parent);
         labyrinthContainer = (FrameLayout) view.findViewById(R.id.labyrinth_container);
+
+        controllerView = (GridLayout) view.findViewById(R.id.controll_view);
+
         down = (ImageButton) view.findViewById(R.id.move_down);
         up = (ImageButton) view.findViewById(R.id.move_up);
         right = (ImageButton) view.findViewById(R.id.move_right);
         left = (ImageButton) view.findViewById(R.id.move_left);
 
         solve = (ImageButton) view.findViewById(R.id.solve_button);
+        controller = (ImageButton) view.findViewById(R.id.controller_button);
 
         down.setOnTouchListener(this);
         right.setOnTouchListener(this);
@@ -111,6 +117,9 @@ public class GameActivity extends AppCompatActivity implements
 
         settings = GameSettings.getInstance(this);
         listener = new SensorListener(this);
+
+        setControllerButtonImage();
+
         setContentView(view);
 
 
@@ -226,25 +235,24 @@ public class GameActivity extends AppCompatActivity implements
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                v.setPressed(true);
                 switch (v.getId()) {
                     case R.id.move_down:
                         changeDirection(DirectionsEnum.DOWN);
                         break;
                     case R.id.move_left:
                         changeDirection(DirectionsEnum.LEFT);
-
                         break;
                     case R.id.move_right:
                         changeDirection(DirectionsEnum.RIGHT);
-
                         break;
                     case R.id.move_up:
                         changeDirection(DirectionsEnum.UP);
-
                         break;
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                v.setPressed(false);
                 changeDirection(DirectionsEnum.NONE);
 
                 break;
@@ -270,6 +278,15 @@ public class GameActivity extends AppCompatActivity implements
                     hideSolve();
                 }
                 break;
+
+            case R.id.controller_button:
+                if (settings.getController().equals(settings.getDefaultController())) {
+                    settings.saveController(settings.getControllers()[1]);
+                } else {
+                    settings.saveController(settings.getControllers()[0]);
+                }
+                setControllerButtonImage();
+                break;
         }
     }
 
@@ -277,4 +294,25 @@ public class GameActivity extends AppCompatActivity implements
         v.setLayoutParams(new FrameLayout.LayoutParams(game.getSize() * game.getColumnCount(),
                 game.getSize() * game.getRowCount()));
     }
+
+    private void setControllerButtonImage() {
+        if (settings.getController().equals(settings.getDefaultController())) {
+            controller.setImageResource(R.drawable.ic_screen_rotation_black_24dp);
+            setEnabledControlButtons(true);
+            unregisterSensors();
+        } else {
+            controller.setImageResource(R.drawable.ic_screen_lock_rotation_black_24dp);
+            setEnabledControlButtons(false);
+            registerSensors();
+        }
+    }
+
+    private void setEnabledControlButtons(boolean state) {
+        for (int i = 0; i < controllerView.getChildCount(); i++) {
+            controllerView.getChildAt(i).setEnabled(state);
+        }
+
+    }
+
+
 }
