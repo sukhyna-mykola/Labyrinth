@@ -19,8 +19,8 @@ import devchallenge.labyrinth.models.LabelCell;
 
 public class GameSaver {
 
-    public static final String WIDTH = "width";
-    public static final String HEIGHT = "height";
+    public static final String ROW_COUNT = "rowCount";
+    public static final String COLUMN_COUNT = "columnCount";
     public static final String CELLS = "cells";
 
     public static final String BALL = "ball";
@@ -83,8 +83,8 @@ public class GameSaver {
 
         private JSONObject labyrinthToJson(Game game) throws JSONException {
             JSONObject o = new JSONObject();
-            o.put(WIDTH, game.getColumnCount());
-            o.put(HEIGHT, game.getRowCount());
+            o.put(ROW_COUNT, game.getRowCount());
+            o.put(COLUMN_COUNT, game.getColumnCount());
 
             JSONObject ball = cellToJson(game.getBall());
             o.put(BALL, ball);
@@ -120,15 +120,15 @@ public class GameSaver {
         // loading game
 
         private void labyrinthFromJson(JSONObject o, Game game) throws JSONException {
-            int width = o.getInt(WIDTH);
-            int height = o.getInt(HEIGHT);
+            int rowCount = o.getInt(ROW_COUNT);
+            int columnCount = o.getInt(COLUMN_COUNT);
 
-            game.setRowCount(height);
-            game.setColumnCount(width);
+            game.setRowCount(rowCount);
+            game.setColumnCount(columnCount);
 
             game.calculateCellSize();
 
-            Cell[][] cells = new Cell[width][height];
+            Cell[][] cells = new Cell[rowCount][columnCount];
 
             JSONArray a = o.getJSONArray(CELLS);
             for (int i = 0; i < a.length(); i++) {
@@ -163,7 +163,7 @@ public class GameSaver {
             if (type.equals(Ball.BALL_CELL)) {
                 c = new Ball(row, column, cellSize, cellSize);
             } else if (type.equals(LabelCell.LABEL_CELL_START)) {
-                c = new LabelCell(row, column, cellSize, cellSize, Color.WHITE, type);
+                c = new LabelCell(row, column, cellSize, cellSize, Color.YELLOW, type);
                 game.setStartCell((LabelCell) c);
             } else if (type.equals(LabelCell.LABEL_CELL_FINISH)) {
                 c = new LabelCell(row, column, cellSize, cellSize, Color.GREEN, type);

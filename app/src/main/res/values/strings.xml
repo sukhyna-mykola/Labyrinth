@@ -21,12 +21,14 @@
     <string-array name="sizes">
         <item>11x11</item>
         <item>21x21</item>
+        <item>35x25</item>
+        <item>25x35</item>
         <item>31x31</item>
         <item>41x41</item>
     </string-array>
 
     <string-array name="modes">
-        <item>STANGART</item>
+        <item>STANDART</item>
         <item>RANDOM</item>
     </string-array>
 

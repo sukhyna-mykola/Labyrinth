@@ -9,7 +9,6 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 
 import devchallenge.labyrinth.models.Border;
 import devchallenge.labyrinth.models.Cell;
@@ -94,7 +93,7 @@ public class LabyrinthHelper {
     }
 
 
-    private Node startNode,finishNode;
+    private Node startNode, finishNode;
     private Queue<Node> nodes = new LinkedList<>();
 
     public List<Cell> solve(Cell[][] l, Cell start, Cell finish) {
@@ -130,8 +129,6 @@ public class LabyrinthHelper {
     }
 
 
-
-
     private List<Node> bfs(Node v, Node[][] l) {    //пошук в ширину
 
         nodes.add(v);
@@ -165,7 +162,7 @@ public class LabyrinthHelper {
                     }
                 }
             //right
-            if (v.row < l[0].length - 1)
+            if (v.column < l[0].length - 1)
                 if (l[v.row][v.column + 1] != null) {
                     Node w = l[v.row][v.column + 1];
                     if (!w.visited) {
@@ -176,7 +173,7 @@ public class LabyrinthHelper {
                 }
 
             //left
-            if (v.row > 0)
+            if (v.column > 0)
                 if (l[v.row][v.column - 1] != null) {
                     Node w = l[v.row][v.column - 1];
                     if (!w.visited) {
@@ -212,7 +209,6 @@ public class LabyrinthHelper {
 
             return column;
         }
-
 
         public Node(int row, int column) {
             this.row = row;
